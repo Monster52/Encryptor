@@ -1,42 +1,38 @@
 class Encryptor
   
-  def cipher 
-     {"a" => "n", "b" => "o", "c" => "p", "d" => "q",
-      "e" => "r", "f" => "s", "g" => "t", "h" => "u",
-      "i" => "v", "j" => "w", "k" => "x", "l" => "y", 
-      "m" => "z", "n" => "a", "o" => "b", "p" => "c",
-      "q" => "d", "r" => "e", "s" => "f", "t" => "g",
-      "u" => "h", "v" => "i", "w" => "j", "x" => "k",
-      "y" => "l", "z" => "m"}
+  def cipher(rotation) 
+    characters = (' '..'z').to_a
+    rotated_characters = characters.rotate(rotation)
+    Hash[characters.zip(rotated_characters)]
   end
   
-  def encrypt_letter(letter)
-    lowercase_letter = letter.downcase
-    cipher[lowercase_letter]
+  def encrypt_letter(letter, rotation)
+    cipher_rotation = cipher(rotation)
+    cipher_rotation[letter]
   end
 
   #Cut the input string into letters
   #Encrypt those letters one at a time, gathering results
   #Join the results back together in one sting
 
-  def encrypt(string)
+  def encrypt(string, rotation)
     letters = string.split("")
     results = letters.collect do |letter|
-      encrypted_letter = encrypt_letter(letter)     
+      encrypted_letter = encrypt_letter(letter, rotation)     
     end
     results.join
   end
 
-  def decrypt_letter(letter)
-    lowercase_letter = letter.downcase
-    new_cipher = cipher.invert
-    new_cipher[lowercase_letter]
+  def decrypt_letter(letter, rotation)
+    cipher_rotation = cipher(rotation)
+    invert_cipher = cipher_rotation.invert
+    invert_cipher[letter]
   end
 
-  def decrypt(string)
+  def decrypt(string, rotation)
     letters = string.split("")
     results = letters.collect do |letter|
-      decrypted_letter = decrypt_letter(letter)
+      decrypted_letter = decrypt_letter(letter, rotation)
     end
     results.join
   end
