@@ -21,10 +21,22 @@ class Encryptor
 
   def encrypt(string)
     letters = string.split("")
-    results = []
-    letters.each do |letter|
+    results = letters.collect do |letter|
       encrypted_letter = encrypt_letter(letter)     
-      results.push(encrypted_letter)
+    end
+    results.join
+  end
+
+  def decrypt_letter(letter)
+    lowercase_letter = letter.downcase
+    new_cipher = cipher.invert
+    new_cipher[lowercase_letter]
+  end
+
+  def decrypt(string)
+    letters = string.split("")
+    results = letters.collect do |letter|
+      decrypted_letter = decrypt_letter(letter)
     end
     results.join
   end
