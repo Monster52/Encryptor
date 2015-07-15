@@ -36,5 +36,5 @@ class Encryptor
     end
     results.join
   end
-
 end
+
